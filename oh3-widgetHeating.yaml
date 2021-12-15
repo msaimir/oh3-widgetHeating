@@ -382,7 +382,7 @@ slots:
                                         background: "=props.colorBarStartPoint && props.colorBarEndPoint ? '-webkit-linear-gradient(top, ' + props.colorBarEndPoint + ' 20%,' + props.colorBarEndPoint + ' 100%)' : '-webkit-linear-gradient(top, rgb(255, 73, 0) 20%,rgb(255, 73, 0) 100%)'"
                                         z-index: 1 !important
                                         transition: transform 0.6s
-                                        transform: "=(items[props.setPointItem].state.split(' ')[0] >= (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp)) && items[props.setPointItem].state.split(' ')[0] <= Number(props.maxTemp) ? 'rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[props.setPointItem].state.split(' ')[0]-Number(props.minTemp))-160)+'deg)' : (items[props.setPointItem].state.split(' ')[0] > Number(props.maxTemp)) ? 'rotate(180deg)' : '')"
+                                        transform: "=(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] >= (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp)) && items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] <= Number(props.maxTemp) ? 'rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]-Number(props.minTemp))-160)+'deg)' : (items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] > Number(props.maxTemp)) ? 'rotate(180deg)' : '')"
                             - component: f7-block
                               config:
                                 class: hold right
@@ -422,7 +422,7 @@ slots:
                                         z-index: 3 !important
                                         clip-path: "=props.size ? 'inset(0px '+ (Number(props.size)*0.89/2) + 'px 0px 0px)' : 'inset(0% 50% 0% 0%)'"
                                         background: "=props.colorBarStartPoint && props.colorBarEndPoint ? '-webkit-linear-gradient(top, ' + props.colorBarEndPoint + ' 40%,' + props.colorBarStartPoint + ' 100%)' : '-webkit-linear-gradient(top, rgb(255, 73, 0) 40%,rgb(255, 158, 35) 100%)'"
-                                        transform: "=(items[props.setPointItem].state.split(' ')[0] <= (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp)) && items[props.setPointItem].state.split(' ')[0] >= Number(props.minTemp) ? 'rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[props.setPointItem].state.split(' ')[0]-Number(props.minTemp))+20)+'deg)' : (items[props.setPointItem].state.split(' ')[0] > (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp))) ? 'rotate(180deg)' :  '')"
+                                        transform: "=(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] <= (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp)) && items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] >= Number(props.minTemp) ? 'rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]-Number(props.minTemp))+20)+'deg)' : (items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] > (((Number(props.maxTemp) - Number(props.minTemp)) / 2) + Number(props.minTemp))) ? 'rotate(180deg)' :  '')"
                             - component: f7-block
                               config:
                                 class: span
@@ -531,7 +531,7 @@ slots:
                             position: absolute
                             top: 50%
                             left: 50%
-                            transform: "=(items[props.setPointItem].state.split(' ')[0] >= Number(props.minTemp) && items[props.setPointItem].state.split(' ')[0] <= Number(props.maxTemp) ? 'translate(-50%, -50%) rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[props.setPointItem].state.split(' ')[0]-Number(props.minTemp))-160)+'deg)' : 'translate(-50%, -50%) rotate(0deg)')"
+                            transform: "=(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0] >= Number(props.minTemp) && items[items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:props.setPointItem].state.split(' ')[0] <= Number(props.maxTemp) ? 'translate(-50%, -50%) rotate('+(320/(Number(props.maxTemp)-Number(props.minTemp))*(items[items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:props.setPointItem].state.split(' ')[0]-Number(props.minTemp))-160)+'deg)' : 'translate(-50%, -50%) rotate(0deg)')"
                             width: "=props.size ? (Number(props.size)*0.1) +'px' : '10%'"
                             height: 100%
                             text-align: center
@@ -572,7 +572,7 @@ slots:
                                       default:
                                         - component: Label
                                           config:
-                                            text: =items[props.setPointItem].state.split(' ')[0]
+                                            text: =items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]
                                             style:
                                               font-size: "=props.fontSizeMarker ? props.fontSizeMarker : '1em'"
                                               color: white
@@ -808,7 +808,7 @@ slots:
                                                     color: "=props.colorButton ? props.colorButton : ''"
                                                   action: command
                                                   actionItem: =props.setPointItem
-                                                  actionCommand: "=Number(items[props.setPointItem].state.split(' ')[0]) > Number(props.minTemp) ? Number(items[props.setPointItem].state.split(' ')[0]) - 0.5 : ''"
+                                                  actionCommand: "=Number(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]) > Number(props.minTemp) ? Number(items[items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:props.setPointItem].state.split(' ')[0]) - 0.5 : ''"
                                                 slots:
                                                   default:
                                                     - component: f7-icon
@@ -833,7 +833,7 @@ slots:
                                                     color: "=props.colorButton ? props.colorButton : ''"
                                                   action: command
                                                   actionItem: =props.setPointItem
-                                                  actionCommand: "=Number(items[props.setPointItem].state.split(' ')[0]) < Number(props.maxTemp) ? Number(items[props.setPointItem].state.split(' ')[0]) + 0.5 : ''"
+                                                  actionCommand: "=Number(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]) < Number(props.maxTemp) ? Number(items[props.setPointItem].state=='NULL'?items[props.currentPointItem].state.split(' ')[0]:items[props.setPointItem].state.split(' ')[0]) + 0.5 : ''"
                                                 slots:
                                                   default:
                                                     - component: f7-icon
@@ -969,7 +969,7 @@ slots:
                                                                     default:
                                                                       - component: Label
                                                                         config:
-                                                                          text: =Number(items[props.currentPointItem].state).toFixed(1)
+                                                                          text: =Number(items[props.currentPointItem].state.split(' ')[0]).toFixed(1)
                                                                       - component: Label
                                                                         config:
                                                                           text: "=props.unit ? props.unit : items[props.currentPointItem].displayState.split(' ')[1]"
