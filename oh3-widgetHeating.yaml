@@ -851,7 +851,7 @@ slots:
                                                   style:
                                                     z-index: -100 !important
                                                     pointer-events: none
-                                                    display: "=(props.valveItem && items[props.valveItem].state == 'ON' )? '' : 'none'"
+                                                    display: "=(props.valveItem && items[props.valveItem].state > 0 )? '' : 'none'"
                                                     background: "=props.colorSetMarker ? 'radial-gradient(' + props.colorSetMarker +' 30%, transparent 50%)' : 'radial-gradient(var(--f7-theme-color) 30%, transparent 50%)'"
                                                     margin-top: 0px
                                                     position: absolute
